@@ -1,40 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { fetchSummary, searchCountry } from "../redux/summary/summaryActions";
+import { fetchSummary } from "../redux/summary/summaryActions";
 import GlobalSummary from "./GlobalSummary"
 import Country from "./Country"
+import Container from '@material-ui/core/Container';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Navbar from "./Navbar"
 
 
-const SummaryContainer = ({ summaryData, fetchSummary, searchCountry }) => {
-  const [search, setSearch] = useState("");
-  
+
+const SummaryContainer = ({ summaryData, fetchSummary }) => {
+   
   useEffect(() => {
     fetchSummary();
   }, []);
   
-  const handleSearch = (e) => {
-    e.preventDefault();
-    searchCountry(search)
-    
-  };
-  
   return summaryData.loading ? (
-    <h2>Loading</h2>
+    <CircularProgress color="secondary" />
   ) : summaryData.error ? (
     <h2>{summaryData.error}</h2>
   ) : (
     <div>
+      <Container>
+      <Navbar />
       <GlobalSummary />
-      <br /> <br />
-      <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <button variant="outlined" color="primary">Search</button>
-      </form>
       <Country />
+      </Container>
     </div>
   );
 };
@@ -45,15 +36,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     fetchSummary: () => dispatch(fetchSummary()),
-//   };
-// };
 
 const mapDispatchToProps = {
     fetchSummary: fetchSummary,
-    searchCountry: searchCountry
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SummaryContainer);

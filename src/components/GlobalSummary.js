@@ -1,66 +1,58 @@
 import React from 'react'
 import { connect } from "react-redux";
-import moment from 'moment';
+import {Paper, Typography} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { red, green, brown, orange, grey } from '@material-ui/core/colors';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      display: 'flex',
+      alignItems: 'center',
+      
+      '& > *': {
+        margin: theme.spacing(1),
+        height: theme.spacing(16),
+        padding: theme.spacing(2),
+      },
+    },
+    paperbox: {
+        backgroundColor: grey[300
+        ],
+    },
+    
+
+  }));
+
 
 function GlobalSummary({summaryData}) {
+    const classes = useStyles();
+    
     return (
-        <div>
-            <h2>Global Summary</h2>
+        <div className={classes.root}>
             {summaryData.summary.Global && (
-                <table border="1px">
-                    <thead>
-                    <tr>
-                        <th>Activity</th>
-                        <th>Data</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Date</td>
-                        <td>
-                        {moment(summaryData.summary.Global.Date).format('DD-MMMM-YYYY')}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>NewConfirmed</td>
-                        <td>
-                        {summaryData.summary.Global.NewConfirmed}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>NewDeaths</td>
-                        <td>
-                        {summaryData.summary.Global.NewDeaths}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>NewRecovered</td>
-                        <td>
-                        {summaryData.summary.Global.NewRecovered}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>TotalConfirmed</td>
-                        <td>
-                        {summaryData.summary.Global.TotalConfirmed}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>TotalDeaths</td>
-                        <td>
-                        {summaryData.summary.Global.TotalDeaths}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>TotalRecovered</td>
-                        <td>
-                        {summaryData.summary.Global.TotalRecovered}
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <>
+                <Paper elevation={5} className={classes.paperbox}>
+                    <Typography variant="h5">Total Confirmed</Typography>
+                    <Typography variant="subtitle1"> <ArrowDropUpIcon/>
+                    {summaryData.summary.Global.TotalConfirmed - summaryData.summary.Global.NewConfirmed}</Typography>
+                    <Typography variant="subtitle1">{`+ ${summaryData.summary.Global.NewConfirmed}`}</Typography>
+                    
+                </Paper>
+                <Paper elevation={5} className={classes.paperbox}>
+                    <Typography variant="h5">Total Deaths</Typography>
+                    <Typography variant="subtitle1"><ArrowDropUpIcon style={{color:"red"}}/>
+                    {summaryData.summary.Global.TotalDeaths - summaryData.summary.Global.NewDeaths}</Typography>
+                    <Typography variant="subtitle1">{`+ ${summaryData.summary.Global.NewDeaths}`}</Typography>
+                </Paper>
+                <Paper elevation={5} className={classes.paperbox}>
+                    <Typography variant="h5">Total Recovered</Typography>
+                    <Typography variant="subtitle1"><ArrowDropUpIcon style={{color:"green"}}/>
+                    {summaryData.summary.Global.TotalRecovered - summaryData.summary.Global.NewRecovered}</Typography>
+                    <Typography variant="subtitle1">{`+ ${summaryData.summary.Global.NewRecovered}`}</Typography>
+                </Paper>
+                </>
             )}
-            
         </div>
     )
 }
