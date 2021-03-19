@@ -20,7 +20,7 @@ function Navbar() {
   const classes = useStyles();
     return (
         <div>
-            <AppBar position="static">
+            <AppBar position="fixed">
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
                         Covid19 Tracker

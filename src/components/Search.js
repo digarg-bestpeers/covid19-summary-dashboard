@@ -56,7 +56,7 @@ function Search({searchCountry}) {
 
 const mapStateToProps = (state) => {
     return {
-      summaryData: state,
+      summaryData: state.summary,
     };
   };
 

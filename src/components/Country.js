@@ -11,7 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Typography, Box } from '@material-ui/core';
 import { deepPurple, deepOrange, red } from '@material-ui/core/colors'
-
+import {Redirect, Link, useHistory} from "react-router-dom"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme) => ({
     typography: {
         marginTop: 10,
         marginBottom: 10,
-        color: deepPurple[500],
-        backgroundColor: deepOrange[200],
+        color: 'white',
+        backgroundColor: deepPurple[400],
         textAlign: "center",
         fontWeight: 500
     },
@@ -31,13 +31,20 @@ const useStyles = makeStyles((theme) => ({
     tableheading: {
         backgroundColor: theme.palette.common.black,
         color: theme.palette.common.white
-    }
+    },
+
   })
 )
-
+const countryDetails =['Country','CopuntryCode','Date','NewConfirmed','NewDeaths','NewRecovered','TotalConfirmed','TotalDeaths','TotalRecovered']
 
 function Country({summaryData}) {
+    const history = useHistory()
     const classes = useStyles();
+    
+    const handleClick = (slug) => {
+        history.push(`/${slug}`)
+    }
+
     return (
         <div>
             <Paper>
@@ -47,24 +54,20 @@ function Country({summaryData}) {
                 <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell className={classes.tableheading}>Country</TableCell>
-                        <TableCell align="right" className={classes.tableheading}>CountryCode</TableCell>
-                        <TableCell align="right" className={classes.tableheading}>Date</TableCell>
-                        <TableCell align="right" className={classes.tableheading}>NewConfirmed</TableCell>
-                        <TableCell align="right" className={classes.tableheading}>NewDeaths</TableCell>
-                        <TableCell align="right" className={classes.tableheading}>NewRecovered</TableCell>
-                        <TableCell align="right" className={classes.tableheading}>TotalConfirmed</TableCell>
-                        <TableCell align="right" className={classes.tableheading}>TotalDeaths</TableCell>
-                        <TableCell align="right" className={classes.tableheading}>TotalRecovered</TableCell>
+                        {countryDetails.map((item)=>{
+                            return(
+                                <TableCell className={classes.tableheading}>{item}</TableCell>
+                            )
+                        })}
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {summaryData.filtered_countries && 
                     summaryData.filtered_countries.map((country) => {
                         return (
-                            <TableRow key={country.ID}>
-                                <TableCell component="th" scope="row">
-                                    {country.Country}
+                            <TableRow key={country.ID} onClick={()=> handleClick(country.Country)}>
+                            <TableCell component="th" scope="row">
+                                {country.Country}
                                 </TableCell>
                                 <TableCell align="right">{country.CountryCode}</TableCell>
                                 <TableCell align="right">{moment(country.Date).format('DD MMMM YYYY')}</TableCell>
@@ -75,6 +78,7 @@ function Country({summaryData}) {
                                 <TableCell align="right">{country.TotalDeaths}</TableCell>
                                 <TableCell align="right">{country.TotalRecovered}</TableCell>
                             </TableRow>
+                            
                         )}
                     )}
                 </TableBody>
@@ -87,7 +91,7 @@ function Country({summaryData}) {
 
 const mapStateToProps = (state) => {
     return {
-      summaryData: state,
+      summaryData: state.summary,
     };
   };
 

@@ -1,11 +1,12 @@
-import {FETCH_SUMMARY_REQUEST, FETCH_SUMMARY_SUCCESS, FETCH_SUMMARY_FAILURE, SEARCH_COUNTRY} from "./summaryTypes"
+import {FETCH_SUMMARY_REQUEST, FETCH_SUMMARY_SUCCESS, FETCH_SUMMARY_FAILURE, SEARCH_COUNTRY, COUNTRY_HISTORY} from "./summaryTypes"
 
 
 const intialState = {
     loading: false,
     summary: {},
     error: '',
-    filtered_countries: []
+    filtered_countries: [],
+    histoy: []
 }
 
 const summaryReducer = (state=intialState, action) => {
@@ -21,7 +22,7 @@ const summaryReducer = (state=intialState, action) => {
                 loading: false,
                 summary: action.payload,
                 error: '',
-                filtered_countries: action.payload.Countries
+                filtered_countries: action.payload.Countries,
             }
 
         case FETCH_SUMMARY_FAILURE:
@@ -37,6 +38,14 @@ const summaryReducer = (state=intialState, action) => {
                 ...state,
                 loading: false,
                 filtered_countries: Countries,
+                error: ''
+            }
+
+        case COUNTRY_HISTORY:
+            return {
+                ...state,
+                loading: false,
+                history: action.payload,
                 error: ''
             }
 

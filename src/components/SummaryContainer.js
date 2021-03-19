@@ -32,7 +32,7 @@ const SummaryContainer = ({ summaryData, fetchSummary }) => {
 
 const mapStateToProps = (state) => {
   return {
-    summaryData: state,
+    summaryData: state.summary,
   };
 };
 

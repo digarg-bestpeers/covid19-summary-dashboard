@@ -1,6 +1,6 @@
-import {FETCH_SUMMARY_REQUEST, FETCH_SUMMARY_SUCCESS, FETCH_SUMMARY_FAILURE, SEARCH_COUNTRY} from "./summaryTypes"
+import {FETCH_SUMMARY_REQUEST, FETCH_SUMMARY_SUCCESS, FETCH_SUMMARY_FAILURE, SEARCH_COUNTRY, COUNTRY_HISTORY} from "./summaryTypes"
 import axios from "axios"
-
+import moment from "moment"
 
 export const fetchSummaryRequest = () => ({
     type: FETCH_SUMMARY_REQUEST,
@@ -42,3 +42,27 @@ export const searchCountry = (name) => ({
     type: SEARCH_COUNTRY,
     payload: name
 })
+
+export const fetchHistorySuccess = (data) => ({
+    type: COUNTRY_HISTORY,
+    payload: data
+})
+
+export const fetchHistory = (slug, date) => {
+    const d = moment(date).format('YYYY-MM-DD') + 'T00:00:00Z'
+    console.log(d)
+    const url = 'https://api.covid19api.com/country/'+slug+'/status/confirmed?from=2021-03-01T00:00:00Z&to='+d
+    return (dispatch) => {
+        dispatch(fetchSummaryRequest);
+        axios.get(`${url}`)
+        .then( response => {
+            const data = response.data
+            dispatch(fetchHistorySuccess(data))
+        })
+        .catch( error => {
+            const errorMsg = error.message
+            dispatch(fetchSummaryFailure(errorMsg))
+        })
+    }
+}
+
