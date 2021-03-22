@@ -48,10 +48,12 @@ export const fetchHistorySuccess = (data) => ({
     payload: data
 })
 
-export const fetchHistory = (slug, date) => {
-    const d = moment(date).format('YYYY-MM-DD') + 'T00:00:00Z'
-    console.log(d)
-    const url = 'https://api.covid19api.com/country/'+slug+'/status/confirmed?from=2021-03-01T00:00:00Z&to='+d
+export const fetchHistory = (slug) => {
+    const date = new Date()
+    const toDate = moment(date).format('YYYY-MM-DD') + 'T00:00:00Z'
+    const pDate = new Date().setDate(date.getDate() - 30)
+    const priorDate = moment(pDate).format('YYYY-MM-DD') + 'T00:00:00Z'
+    const url = 'https://api.covid19api.com/country/'+slug+'?from='+priorDate+'&to='+toDate
     return (dispatch) => {
         dispatch(fetchSummaryRequest);
         axios.get(`${url}`)

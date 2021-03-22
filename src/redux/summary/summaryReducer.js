@@ -19,6 +19,7 @@ const summaryReducer = (state=intialState, action) => {
 
         case FETCH_SUMMARY_SUCCESS:
             return {
+                ...state,
                 loading: false,
                 summary: action.payload,
                 error: '',
@@ -46,7 +47,7 @@ const summaryReducer = (state=intialState, action) => {
                 ...state,
                 loading: false,
                 history: action.payload,
-                error: ''
+                error: '',
             }
 
         default: return state

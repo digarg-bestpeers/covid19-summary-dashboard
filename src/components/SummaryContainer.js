@@ -23,7 +23,11 @@ const SummaryContainer = ({ summaryData, fetchSummary }) => {
     <div>
       <Container>
       <Navbar />
-      <GlobalSummary />
+      <div>
+        {summaryData.summary.Global && (
+          <GlobalSummary total={summaryData.summary.Global} />
+        )}
+      </div>
       <Country />
       </Container>
     </div>

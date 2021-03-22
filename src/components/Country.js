@@ -9,9 +9,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Typography, Box } from '@material-ui/core';
-import { deepPurple, deepOrange, red } from '@material-ui/core/colors'
-import {Redirect, Link, useHistory} from "react-router-dom"
+import { Typography } from '@material-ui/core';
+import { deepPurple} from '@material-ui/core/colors'
+import {useHistory} from "react-router-dom"
 
 
 const useStyles = makeStyles((theme) => ({
